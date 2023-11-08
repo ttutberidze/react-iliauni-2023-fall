@@ -1,0 +1,34 @@
+pipeline {
+    agent any
+    tools {
+        nodejs 'NodeJS'
+    }
+    stages {
+        stage('Clone') {
+            steps {
+                git branch:'main', url: 'https://github.com/ttutberidze/react-iliauni-2023-fall.git'
+            }
+        }
+        stage('Install') {
+            steps {
+                sh 'cd 3 && npm install'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'cd 3 && npm run build'
+            }
+            post {
+                success {
+                    archiveArtifacts artifacts: '3/build/*'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                sh 'cd 3 && npm run test'
+            }
+        }
+        
+    }
+}
