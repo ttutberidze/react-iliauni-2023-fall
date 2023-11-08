@@ -1,3 +1,5 @@
+/*eslint no-unused-vars: "error"*/
+
 import React from 'react';
 import './App.css';
 import Person from './User';
@@ -48,6 +50,12 @@ class App extends React.Component {
 
   render() {
     var james = 'Bond';
+    console.log(james);
+
+    function a () {
+      console.log('something');
+    }
+    a();
     return (
       <div className="App">
         <h2>Hello World</h2>
