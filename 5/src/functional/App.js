@@ -6,13 +6,11 @@ let counter = 0;
 
 const App = () => {
 
-    var [users, setUsers] = useState([{name: 'James'}, {name: 'Temo'}]);
+    const [users, setUsers] = useState([{name: 'James'}, {name: 'Temo'}]);
     const [page, setPage] = useState(1);
 
     const inputRef = useRef();
     const customRef = useRef(0);
-
-    const james = 'Bond';
 
     console.log(`Component was re-rendered ${customRef.current} times`, counter)
 

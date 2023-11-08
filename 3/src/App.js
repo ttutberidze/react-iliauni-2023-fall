@@ -47,6 +47,7 @@ class App extends React.Component {
   }
 
   render() {
+    var james = 'Bond';
     return (
       <div className="App">
         <h2>Hello World</h2>
