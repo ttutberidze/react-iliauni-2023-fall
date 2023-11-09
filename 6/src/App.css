@@ -17,3 +17,7 @@ div {
 .main {
   flex: 4
 }
+
+.active-link {
+  background: lime;
+}

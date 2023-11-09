@@ -3,12 +3,38 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import ThemeContextProvider from './context/theme';
+import {createBrowserRouter, RouterProvider} from 'react-router-dom';
+import Posts from './components/posts';
+import Home from './components/home';
+import SinglePost from './components/singlePost';
+
+const router = createBrowserRouter([
+  {
+      path: '/',
+      element: <App />,
+      children: [
+          {
+            path: '',
+            element: <Home />
+          },
+          {
+              path: 'posts',
+              element: <Posts />
+          },
+          {
+            path: 'posts/:postId',
+            element: <SinglePost />
+          }
+      ]
+  }
+])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <ThemeContextProvider>
+    <RouterProvider router={router} />
+  </ThemeContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
