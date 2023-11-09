@@ -1,0 +1,19 @@
+.App {
+  text-align: center;
+}
+
+div {
+  border: 1px solid #cccccc;
+}
+
+.content {
+  display: flex;
+}
+
+.sidebar {
+  flex: 1;
+}
+
+.main {
+  flex: 4
+}
