@@ -1,12 +1,21 @@
+import { Form, Outlet, redirect, useFetcher, useLoaderData } from "react-router-dom";
+import { deleteContact, updateContact } from "../contacts";
+
+export const viewUserAction = async ({params: {userId}, request}) => {
+  if(request.method === 'POST') {
+    // Add to favorite
+    const formData = await request.formData();
+    return await updateContact(userId, {favorite: formData.get('favorite') === 'true'})
+  } else {
+    // Delete
+    await deleteContact(userId);
+  return redirect('/');
+  }
+}
+
 export default function Contact() {
 
-  const contact = {
-    avatar: '',
-    first: '',
-    last: '',
-    twitter: '',
-    notes: '',
-  }
+  const contact = useLoaderData();
 
   return (
     <div id="contact">
@@ -43,28 +52,38 @@ export default function Contact() {
         {contact.notes && <p>{contact.notes}</p>}
 
         <div>
-          <button>Edit</button>
-          <button>Delete</button>
+          <Form method="get" action="edit">
+            <button>Edit</button>
+          </Form>
+          <Form method="delete">
+            <button type="submit">Delete</button>
+          </Form>
         </div>
       </div>
+      <Outlet />
     </div>
   );
 }
 
 const Favorite = ({ contact }) => {
+  const fetcher = useFetcher();
   let favorite = contact.favorite;
-
+  if(fetcher.formData) {
+    favorite = fetcher.formData.get('favorite') === 'true'
+  }
   return (
-    <button
-      name="favorite"
-      value={favorite ? "false" : "true"}
-      aria-label={
-        favorite
-          ? "Remove from favorites"
-          : "Add to favorites"
-      }
-    >
-      {favorite ? "★" : "☆"}
-    </button>
+    <fetcher.Form method="post">
+      <button
+        name="favorite"
+        value={favorite ? "false" : "true"}
+        aria-label={
+          favorite
+            ? "Remove from favorites"
+            : "Add to favorites"
+        }
+      >
+        {favorite ? "★" : "☆"}
+      </button>
+    </fetcher.Form>
   );
 }

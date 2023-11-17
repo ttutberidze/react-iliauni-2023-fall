@@ -2,10 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import Root from './routes/root';
 import {createBrowserRouter, RouterProvider} from 'react-router-dom';
-import Contact from './routes/contact';
-import Edit from './routes/edit';
+import Root, { createUserAction, getUsersLoader } from './routes/root';
+import ViewUser, { viewUserAction } from './routes/contact';
+import EditUser, { updateUserAction, getUserLoader } from './routes/edit';
 import ErrorPage from './error-page';
 
 const root = ReactDOM.createRoot(
@@ -17,17 +17,23 @@ const router = createBrowserRouter([
     path: '/',
     element: <Root />,
     errorElement: <ErrorPage />,
+    loader: getUsersLoader,
+    action: createUserAction,
     children: [
       {
-        path: '/contact/:contactId',
-        element: <Contact />,
+        path: 'user/:userId',
+        element: <ViewUser />,
+        loader: getUserLoader,
+        action: viewUserAction,
       },
       {
-        path: '/contact/:contactId/edit',
-        element: <Edit />,
+        path: '/user/:userId/edit',
+        element: <EditUser />,
+        loader: getUserLoader,
+        action: updateUserAction,
       }
     ]
-  },
+  }
 ])
 
 root.render(

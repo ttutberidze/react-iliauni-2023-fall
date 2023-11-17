@@ -1,13 +1,22 @@
+import { Form, redirect, useLoaderData, useNavigate } from "react-router-dom";
+import { getContact, updateContact } from "../contacts";
+
+export const getUserLoader = async ({params: {userId}}) => {
+  return await getContact(userId);
+}
+
+export const updateUserAction = async ({params: {userId}, request}) => {
+  const formData = await request.formData();
+  const updateData = Object.fromEntries(formData);
+  await updateContact(userId, updateData);
+  return redirect(`/user/${userId}`);
+}
+
 export default function EditContact() {
-  const contact = {
-    avatar: '',
-    first: '',
-    last: '',
-    twitter: '',
-    notes: '',
-  }
+  const contact = useLoaderData();
+  const navigate = useNavigate();
   return (
-    <div id="contact-form">
+    <Form method="post" id="contact-form">
       <p>
         <span>Name</span>
         <input
@@ -54,8 +63,8 @@ export default function EditContact() {
       </label>
       <p>
         <button type="submit">Save</button>
-        <button type="button">Cancel</button>
+        <button type="button" onClick={() => navigate(-1)}>Cancel</button>
       </p>
-    </div>
+    </Form>
   );
 }
